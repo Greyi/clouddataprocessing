@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Virtualización</title>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				
+                <section>
+					<h2 style="color: #42affa;">Virtualización y Solución Estratificada</h2>
+				</section>
+
+                <section>
+					<h3>1.1 Solución Estratificada de Problemas</h3>
+					<p align="left" style="font-size: 0.8em;">Consiste en dividir la infraestructura TIC en capas (estratos) para aislar fallos:</p>
+					<ul style="font-size: 0.7em;">
+						<li><strong>Hardware:</strong> Recursos físicos.</li>
+						<li><strong>Abstracción:</strong> Capa de virtualización.</li>
+						<li><strong>Sistema:</strong> SO y librerías.</li>
+						<li><strong>Aplicación:</strong> Software final.</li>
+					</ul>
+					<p style="font-size: 0.6em; background: #222; padding: 10px;"><em>Beneficio: Localización precisa de errores y gestión modular.</em></p>
+				</section>
+
+                <section>
+					<h3>1.1.a Interpretación Pura</h3>
+					<div style="display: flex; gap: 20px;">
+						<div style="flex: 1; font-size: 0.6em; text-align: left;">
+							<h4 style="color: #42affa;">Descripción</h4>
+							<p>Traduce cada instrucción del sistema invitado al host, una por una.</p>
+							<h4 style="color: #42affa;">Características</h4>
+							<ul>
+								<li>Compatibilidad total de arquitectura.</li>
+								<li>Rendimiento lento (alto overhead).</li>
+							</ul>
+						</div>
+						<div style="flex: 1; font-size: 0.6em; text-align: left;">
+							<h4 style="color: #42affa;">Casos y Ejemplos</h4>
+							<ul>
+								<li>Emulación de hardware antiguo.</li>
+								<li>Debugging de kernels.</li>
+								<li><strong>Software:</strong> Bochs, QEMU (modo TCG).</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+                <section>
+					<h3>1.1.b Recompilación Dinámica</h3>
+					<div style="display: flex; gap: 20px;">
+						<div style="flex: 1; font-size: 0.6em; text-align: left;">
+							<h4 style="color: #42affa;">Descripción</h4>
+							<p>Traduce bloques de código binario en tiempo real y los guarda en caché.</p>
+							<h4 style="color: #42affa;">Características</h4>
+							<ul>
+								<li>Mucho más rápido que la interpretación.</li>
+								<li>Traducción Just-In-Time (JIT).</li>
+							</ul>
+						</div>
+						<div style="flex: 1; font-size: 0.6em; text-align: left;">
+							<h4 style="color: #42affa;">Casos y Ejemplos</h4>
+							<ul>
+								<li>Máquinas virtuales de lenguajes.</li>
+								<li>Software legacy en arquitecturas nuevas.</li>
+								<li><strong>Software:</strong> JVM (Java), Rosetta (Apple).</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+                <section>
+					<h3>1.1.c Hipervisión (Bare Metal)</h3>
+					<div style="display: flex; gap: 20px;">
+						<div style="flex: 1; font-size: 0.6em; text-align: left;">
+							<h4 style="color: #42affa;">Descripción</h4>
+							<p>El hipervisor se instala directamente sobre el hardware físico.</p>
+							<h4 style="color: #42affa;">Características</h4>
+							<ul>
+								<li>Máximo rendimiento y eficiencia.</li>
+								<li>Seguridad mejorada (sin SO anfitrión).</li>
+							</ul>
+						</div>
+						<div style="flex: 1; font-size: 0.6em; text-align: left;">
+							<h4 style="color: #42affa;">Casos y Ejemplos</h4>
+							<ul>
+								<li>Datacenters masivos.</li>
+								<li>Nubes públicas (IaaS).</li>
+								<li><strong>Software:</strong> VMware ESXi, Proxmox, Hyper-V.</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
