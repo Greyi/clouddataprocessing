@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Pizza as a Service 2.0</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/night.min.css">
+
+    <style>
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #00d2ff;
+            text-transform: none;
+        }
+        .reveal p, .reveal li {
+            font-size: 32px;
+            text-align: left;
+            line-height: 1.4;
+        }
+        .reveal ul {
+            display: block;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        .highlight-green { color: #10b981; font-weight: bold; }
+        .highlight-red { color: #f43f5e; font-weight: bold; }
+
+        /* Estilo para la matriz de responsabilidades */
+        table.matrix { width: 100%; font-size: 24px !important; margin-top: 20px; }
+        table.matrix th { color: #00d2ff; border-bottom: 2px solid #333; text-align: left; }
+        table.matrix td { border-bottom: 1px solid #222; padding: 10px 0; }
+        .user-resp { color: #f43f5e; }
+        .cloud-resp { color: #10b981; }
+    </style>
+</head>
+<body>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ==================== PORTADA ==================== -->
+            <section>
+                <h1 style="font-size: 2em;">Pizza as a Service <span style="color:#fff;">2.0</span></h1>
+                <h3>Modelos de Servicio en la Nube</h3>
+                <p style="text-align: center; font-size: 24px; color: #aaa;">Tarea #997</p>
+                <p style="text-align: center; font-size: 20px; margin-top: 40px;">Usa las flechas del teclado para navegar</p>
+            </section>
+
+            <!-- ==================== CONCEPTO 2.0 ==================== -->
+            <section>
+                <h2>El Concepto "2.0"</h2>
+                <p><strong>Pizza as a Service</strong> es una analogía famosa para explicar la gestión de TI. La versión <strong>2.0</strong> actualiza este modelo incorporando arquitecturas modernas como Contenedores (CaaS) y Serverless (FaaS).</p>
+                <p>En lugar de cocinar desde cero (On-Premises), la nube nos permite abstraer capas de responsabilidad operativa.</p>
+            </section>
+
+            <!-- ==================== IaaS ==================== -->
+            <section>
+
+                <section>
+                    <h2>IaaS (Infraestructura)</h2>
+                    <p><strong>Descripción:</strong> "Take and Bake". El proveedor de nube te da los componentes básicos (Redes, Almacenamiento, Servidores virtuales). Tú debes instalar el Sistema Operativo, middleware y la aplicación.</p>
+                </section>
+
+                <section>
+                    <h2>IaaS: El Rol del Hipervisor</h2>
+                    <ul>
+                        <li>El proveedor opera un <strong>hipervisor</strong> (ej. KVM, Xen, Hyper-V) que abstrae el hardware físico y lo convierte en múltiples máquinas virtuales aisladas.</li>
+                        <li style="margin-top: 20px;">Cada VM tiene su propia CPU virtual, memoria RAM y disco asignados. El usuario ve un servidor completo, pero comparte el hierro físico con otros inquilinos de forma <strong>transparente y segura</strong>.</li>
+                        <li style="margin-top: 20px;">El usuario toma control desde el <strong>sistema operativo hacia arriba</strong>; todo lo que está por debajo es responsabilidad del proveedor.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>IaaS: Pros y Contras</h2>
+                    <ul>
+                        <li><span class="highlight-green">Ventajas:</span> Control total sobre el Sistema Operativo, gestión de <strong>firewalls y redes internas (VPCs)</strong>, ideal para sistemas legacy, alta flexibilidad de configuración.</li>
+                        <li style="margin-top: 20px;"><span class="highlight-red">Desventajas:</span> Requiere un equipo de TI capacitado para administrar <strong>parches de vulnerabilidades del kernel</strong>, seguridad del SO, escalamiento manual y gestión de <strong>respaldos a nivel de disco</strong>.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>IaaS: Casos y Ejemplos</h2>
+                    <ul>
+                        <li><strong>Lift-and-Shift (Rehost):</strong> Mover una VM on-premises a la nube sin refactorizar el código. Es la estrategia más rápida de migración, ideal cuando el sistema no puede ser re-arquitectado pero sí necesita dejar el datacenter físico.</li>
+                        <li style="margin-top: 20px;"><strong>Bases de Datos de Alto Rendimiento:</strong> Cargas de trabajo que requieren <strong>IOPS garantizados</strong> (operaciones de E/S por segundo) o configuraciones a nivel de kernel que un PaaS gestionado no permitiría (ej. tuning de parámetros de PostgreSQL o Oracle RAC).</li>
+                        <li style="margin-top: 20px;"><strong>Ejemplos:</strong> Amazon EC2 (AWS), Google Compute Engine (GCP), Azure Virtual Machines.</li>
+                    </ul>
+                </section>
+
+            </section>
+
+            <!-- ==================== PaaS ==================== -->
+            <section>
+
+                <section>
+                    <h2>PaaS (Plataforma)</h2>
+                    <p><strong>Descripción:</strong> "Pizza Delivery". El proveedor maneja todo el entorno subyacente (Servidor, SO, Runtime). El equipo de desarrollo solo se enfoca en subir el código (la receta) y manejar los datos.</p>
+                </section>
+
+                <section>
+                    <h2>PaaS: Runtime y Ciclo de Despliegue</h2>
+                    <ul>
+                        <li>El proveedor expone un <strong>Runtime gestionado</strong> (Node.js, Python, .NET Core, Java) y se encarga de su actualización y parcheo de seguridad.</li>
+                        <li style="margin-top: 20px;">El despliegue se apoya en <strong>buildpacks</strong> o pipelines integrados: el desarrollador hace <code>git push</code> y la plataforma detecta el lenguaje, instala dependencias, compila y levanta la aplicación automáticamente.</li>
+                        <li style="margin-top: 20px;">El ciclo completo —build, release, run— sigue el estándar <strong>12-Factor App</strong>, lo que garantiza portabilidad y reproducibilidad entre entornos.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>PaaS: Pros y Contras</h2>
+                    <ul>
+                        <li><span class="highlight-green">Ventajas:</span> Despliegue de aplicaciones ultrarrápido, auto-escalado integrado, cero mantenimiento de servidores.</li>
+                        <li style="margin-top: 20px;"><span class="highlight-red">Desventajas:</span> <strong>Vendor Lock-in</strong> profundo al depender de add-ons propietarios (ej. Heroku Postgres, AWS Elastic Cache); además, no es posible instalar <strong>dependencias binarias a nivel de SO</strong> (ej. librerías C nativas o drivers personalizados), lo que bloquea ciertos casos de uso de ciencia de datos o procesamiento de señales.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>PaaS: Casos y Ejemplos</h2>
+                    <ul>
+                        <li><strong>Entornos de Staging Rápidos:</strong> Equipos pequeños que necesitan levantar un entorno de pruebas idéntico a producción en minutos, sin involucrar a un equipo de operaciones.</li>
+                        <li style="margin-top: 20px;"><strong>Microservicios Estándar:</strong> Arquitecturas donde el <strong>time-to-market</strong> es crítico y cada servicio usa un stack convencional (REST API en Node, worker en Python). PaaS elimina la fricción operativa para que el equipo se enfoque en la lógica de negocio.</li>
+                        <li style="margin-top: 20px;"><strong>Ejemplos:</strong> Heroku, AWS Elastic Beanstalk, Google App Engine.</li>
+                    </ul>
+                </section>
+
+            </section>
+
+            <!-- ==================== FaaS ==================== -->
+            <section>
+
+                <section>
+                    <h2>FaaS (Serverless)</h2>
+                    <p><strong>Descripción:</strong> "Pizza por Rebanada". Es el verdadero modelo 2.0. No hay servidores visibles ni encendidos todo el tiempo. Subes un fragmento de código (función) que se ejecuta solo cuando ocurre un evento específico.</p>
+                </section>
+
+                <section>
+                    <h2>FaaS: Arquitectura Orientada a Eventos</h2>
+                    <ul>
+                        <li>El paradigma central es <strong>Event-Driven</strong>: la función "duerme" empaquetada en un micro-contenedor frío hasta que un <strong>trigger</strong> la despierta.</li>
+                        <li style="margin-top: 20px;">Los triggers más comunes son: una <strong>petición HTTP</strong> (API Gateway), un <strong>cambio en base de datos</strong> (DynamoDB Streams, Firestore triggers) o un <strong>mensaje en una cola</strong> (SQS, Pub/Sub, Kafka).</li>
+                        <li style="margin-top: 20px;">Una vez procesado el evento, el contenedor puede mantenerse "tibio" brevemente para reutilización, o apagarse — el proveedor decide. El desarrollador <strong>nunca gestiona servidores ni contenedores directamente</strong>.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>FaaS: Pros y Contras</h2>
+                    <ul>
+                        <li><span class="highlight-green">Ventajas:</span> Pago estricto por uso (cobro por tiempo de ejecución, con resolución de milisegundos), alta escalabilidad automática con límites de concurrencia configurables por cuenta y región.</li>
+                        <li style="margin-top: 20px;"><span class="highlight-red">Desventajas:</span> <strong>Cold Start</strong>: cuando la función lleva tiempo inactiva, el proveedor debe aprovisionar y arrancar un nuevo micro-contenedor, añadiendo latencia (típicamente 100ms–2s). Además, la <strong>trazabilidad distribuida</strong> es compleja: sin herramientas como <strong>OpenTelemetry</strong> o <strong>AWS CloudWatch X-Ray</strong>, depurar una cadena de funciones asíncronas es muy difícil.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>FaaS: Casos y Ejemplos</h2>
+                    <ul>
+                        <li><strong>IoT y Telemetría:</strong> Procesamiento de <strong>ráfagas de datos de sensores</strong>: miles de dispositivos pueden enviar lecturas simultáneamente; FaaS escala horizontalmente sin intervención y descarta recursos cuando el flujo cae.</li>
+                        <li style="margin-top: 20px;"><strong>Webhooks de Pago:</strong> Eventos de alta concurrencia y baja duración (ej. confirmaciones de Stripe o PayPal). Cada notificación dispara una función independiente, garantizando aislamiento y sin riesgo de saturar un servidor compartido.</li>
+                        <li style="margin-top: 20px;"><strong>Ejemplos:</strong> AWS Lambda, Google Cloud Functions, Azure Functions.</li>
+                    </ul>
+                </section>
+
+            </section>
+
+            <!-- ==================== SaaS ==================== -->
+            <section>
+
+                <section>
+                    <h2>SaaS (Software)</h2>
+                    <p><strong>Descripción:</strong> "Dining Out" (Comer en restaurante). Consumes el software como un producto final a través de internet. El proveedor maneja absolutamente toda la infraestructura y el código.</p>
+                </section>
+
+                <section>
+                    <h2>SaaS: Multi-tenancy</h2>
+                    <ul>
+                        <li>La mayoría de los SaaS operan bajo un modelo <strong>multi-inquilino (Multi-tenancy)</strong>: múltiples clientes comparten la misma instancia de la aplicación e infraestructura subyacente.</li>
+                        <li style="margin-top: 20px;">El aislamiento de datos es <strong>lógico, no físico</strong>: cada cliente ve únicamente sus datos gracias a identificadores de tenant (ej. <code>tenant_id</code> en cada query), pero las tablas pueden coexistir en la misma base de datos.</li>
+                        <li style="margin-top: 20px;">Esto reduce el costo operativo del proveedor pero introduce riesgos de <strong>cross-tenant data leakage</strong> si los controles de acceso no están bien implementados.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>SaaS: Pros y Contras</h2>
+                    <ul>
+                        <li><span class="highlight-green">Ventajas:</span> Cero mantenimiento para el usuario, acceso universal desde cualquier navegador, esquema de costos predecible (suscripción).</li>
+                        <li style="margin-top: 20px;"><span class="highlight-red">Desventajas:</span> <strong>Shadow IT</strong>: usuarios o áreas del negocio contratan software SaaS sin supervisión del equipo de TI, generando riesgos de seguridad y fragmentación de datos. Además, las <strong>restricciones de API rate-limiting</strong> dificultan la extracción masiva de datos hacia almacenes locales (data warehouses), comprometiendo las capacidades analíticas propias.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>SaaS: Casos y Ejemplos</h2>
+                    <ul>
+                        <li><strong>Casos de Uso:</strong> Herramientas de productividad corporativa, correo electrónico, CRMs para ventas y colaboración en equipo.</li>
+                        <li style="margin-top: 20px;"><strong>Ejemplos:</strong> Google Workspace (Gmail/Drive), Salesforce, Slack, Microsoft 365.</li>
+                    </ul>
+                </section>
+
+            </section>
+
+            <!-- ==================== MATRIZ ==================== -->
+            <section>
+                <h2>Matriz de Responsabilidades</h2>
+                <table class="matrix">
+                    <thead>
+                        <tr>
+                            <th>Capa de Arquitectura</th>
+                            <th>On-Premises</th>
+                            <th>IaaS</th>
+                            <th>PaaS</th>
+                            <th>FaaS</th>
+                            <th>SaaS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Redes y Almacenamiento</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="cloud-resp">Proveedor</td>
+                            <td class="cloud-resp">Proveedor</td>
+                            <td class="cloud-resp">Proveedor</td>
+                            <td class="cloud-resp">Proveedor</td>
+                        </tr>
+                        <tr>
+                            <td>Sistema Operativo</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="cloud-resp">Proveedor</td>
+                            <td class="cloud-resp">Proveedor</td>
+                            <td class="cloud-resp">Proveedor</td>
+                        </tr>
+                        <tr>
+                            <td>Entorno (Runtime)</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="cloud-resp">Proveedor</td>
+                            <td class="cloud-resp">Proveedor</td>
+                            <td class="cloud-resp">Proveedor</td>
+                        </tr>
+                        <tr>
+                            <td>Código de Aplicación</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="cloud-resp">Proveedor</td>
+                        </tr>
+                        <tr>
+                            <td>Datos</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú</td>
+                            <td class="user-resp">Tú*</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 18px; color: #aaa; margin-top: 10px;">* En SaaS, los datos los genera el usuario pero residen en infraestructura del proveedor — crítico en términos de compliance y privacidad.</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        // Inicialización de Webjeda Slides / Reveal
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+            transition: 'slide' // Opciones: none/fade/slide/convex/concave/zoom
+        });
+    </script>
+
+</body>
+</html>
